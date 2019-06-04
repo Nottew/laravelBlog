@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -33,5 +33,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::group(['middleware' => 'admin'], function() {
         Route::get('/admin', 'Admin\AccController@index')->name('admin');
+        Route::get('/categories', 'Admin\CategoriesController@index')->name('categories');
+        Route::get('/categories/add', 'Admin\CategoriesController@addCategory')->name('categories.add');
+        Route::get('/categories/edit/{id}', 'Admin\CategoriesController@editCategory')->where('id', '\d+')->name('categories.edit');
+        Route::get('/categories/delete', 'Admin\CategoriesController@deleteCategory')->name('categories.delete');
     });
 });

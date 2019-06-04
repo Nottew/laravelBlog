@@ -1,0 +1,11 @@
+@if(\Auth::user())
+                    <a href="{{ route('account') }}">Личный кабинет</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
+                @endif
+
+
+                {{--                <div class="links">--}}
+                {{--                    <a href="{{ route('account')}}">Личный кабинет</a>--}}
+                {{--                </div>--}}
