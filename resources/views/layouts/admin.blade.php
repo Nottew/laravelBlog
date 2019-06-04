@@ -53,7 +53,7 @@
                     <a class="nav-link" href="{!! route('categories') !!}">Категории </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Статьи</a>
+                    <a class="nav-link" href="{!! route('articles') !!}">Статьи</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Пользователи</a>
