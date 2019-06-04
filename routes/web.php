@@ -31,11 +31,18 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/my/account', 'AccController@index')->name('account');
 
 
-    Route::group(['middleware' => 'admin'], function() {
-        Route::get('/admin', 'Admin\AccController@index')->name('admin');
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
+        Route::get('/', 'Admin\AccController@index')->name('admin');
         Route::get('/categories', 'Admin\CategoriesController@index')->name('categories');
-        Route::get('/categories/add', 'Admin\CategoriesController@addCategory')->name('categories.add');
+        Route::get ('/categories/add', 'Admin\CategoriesController@addCategory')->name('categories.add');
+        Route::post('/categories/add', 'Admin\CategoriesController@addRequestCategory');
         Route::get('/categories/edit/{id}', 'Admin\CategoriesController@editCategory')->where('id', '\d+')->name('categories.edit');
-        Route::get('/categories/delete', 'Admin\CategoriesController@deleteCategory')->name('categories.delete');
+        Route::post('/categories/edit/{id}', 'Admin\CategoriesController@editRequestCategory')->where('id', '\d+');
+        Route::delete('/categories/delete', 'Admin\CategoriesController@deleteCategory')->name('categories.delete');
+
+        Route::get('/articles', 'Admin\ArticlesController@index')->name('articles');
+        Route::get('/articles/add','Admin\ArticlesController@addArticle')->name('articles.add');
+        Route::get('/articles/edit/{id}', 'Admin\ArticlesController@editArticle')->name('articles.edit');
+        Route:delete('/articles/delete', 'Admin\ArticlesController@deleteArticle')->name('articles.delete');
     });
 });
