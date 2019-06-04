@@ -24,5 +24,14 @@ Route::group(['middleware' => 'guest'], function(){
 
 
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('/logout', function(){
+        \Auth::logout();
+        return redirect(route('login'));
+    })->name('logout');
     Route::get('/my/account', 'AccController@index')->name('account');
+
+
+    Route::group(['middleware' => 'admin'], function() {
+        Route::get('/admin', 'Admin\AccController@index')->name('admin');
+    });
 });
