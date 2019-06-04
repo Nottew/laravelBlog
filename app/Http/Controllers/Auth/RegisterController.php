@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
-
-use App\User;
+use App\Entities\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
 class RegisterController extends Controller
 {
     /*
@@ -20,16 +17,13 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
-
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
-
+    protected $redirectTo = '/my/account';
     /**
      * Create a new controller instance.
      *
@@ -39,7 +33,30 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function register(Request $request)
+    {
+        try {
+            $this->validator($request->all())->validate();
+        }catch(\Exception $e){
+            return back()->with('error', $e->getMessage());
+        }
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $isAuth = $request->has('remember') ? true : false;
+        $objUser = $this->create(['email' => $email, 'password' => $password]);
+        if(!($objUser instanceof User)){
+            //throw new \Exception("Can't create object");
+            return back()->with('error', "Can't create object");
+        }
+        if($isAuth){
+            $this->guard()->login($objUser);
+        }
+        return redirect(route('account'))->with('success', 'Вы успешно зарегистрированны');
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -49,24 +66,21 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => bcrypt($data['password']),
         ]);
     }
 }
