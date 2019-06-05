@@ -61,18 +61,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Комментарии</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Nav item</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Nav item again</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">One more nav</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Another nav item</a>
-                </li>
             </ul>
         </nav>
 
