@@ -18,4 +18,10 @@ class Article extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**связь Relations*/
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_articles', 'article_id', 'category_id');
+    }
 }

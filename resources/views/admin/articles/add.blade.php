@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
     <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-        <h1>Добавить Категорию</h1>
+        <h1>Добавить Статью</h1>
         <br>
         <form method="post">
             {!! csrf_field() !!}
